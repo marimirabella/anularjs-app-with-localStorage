@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<!-- Angular Module -->
+<html lang="en" ng-app="app">
+	<head>
+		<title>Project</title> 
+		<meta charset="utf-8">
+
+		<!-- Mobile Meta -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<!-- Core css file -->
+		<link rel="stylesheet" href="./css/styles.css">
+
+	</head>
+	<body ng-controller="appController">
+		
+		<!-- header start -->
+		<!-- ================== -->
+		<header>
+			<a href="#">Main</a>
+			<nav>
+				<ul>
+					<li><a href="#">Overview</a></li>
+				</ul>
+			</nav>
+		</header>
+		<!-- header end -->
+		<!-- ================== -->
+		
+		<!-- Items start -->
+		<!-- ================== -->
+		<section>
+			<h2>Items</h2>
+			<form name="itemsForm" ng-submit="submitItem()">
+				<input type="text" name="name" ng-model="newItem.name" placeholder="Type name here...">
+				<input type="submit" value="Add new">
+			</form>
+			<div id="{{item.id}}" ng-repeat="item in items track by $index" ng-click="setActive(item)" ng-class="{active: activeItem == item}">
+				<div>
+					<p>{{item.name}}</p>
+					<span ng-show="item.comments.length > 0">{{item.comments.length}}</span>
+					<input type="submit" value="Delete" ng-click="deleteItem(item)">
+				</div>
+			</div>
+		</section>
+		<!-- Items end -->
+		<!-- ================== -->
+		
+		<!-- Comments start -->
+		<!-- ================== -->
+		<section>
+			<h2>Comments #<span ng-show="activeItem">{{parseInt(activeItem.id) + 1}}</span></h2>
+			<ul ng-repeat="comment in activeItem.comments">
+				<li></li>
+				<li>{{comment.comment}}</li>
+			</ul>
+			<form name="commentForm" ng-submit="submitComment()">
+				<label for="commentTextarea"></label>
+				<textarea id="commentTextarea" name="comment" cols="50" rows="4" ng-model="newComment.comment" ng-keyup="$event.keyCode == 13 && submitComment()"></textarea>
+			</form>
+		</section>
+		<!-- Comments end -->
+		<!-- ================== -->
+
+		<!-- Jquery -->
+		<script type="text/javascript" src="./js/jquery.min.js"></script>
+
+		<!-- Angular JS -->
+		<script src="./node-modules/angular/angular.min.js"></script>
+
+		<!-- Angular app.js -->
+		<script type="text/javascript" src="./js/app.js"></script>
+
+	</body>
+</html>

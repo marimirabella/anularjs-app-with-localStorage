@@ -1,0 +1,14 @@
+{
+  "name": "application",
+  "description": "using AngularJS",
+  "main": "app.js",
+  "dependencies": {
+    "angular": "^1.6.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marimirabella/marimirabella.github.io.git"
+  },
+  "author": "Marina Karpovets",
+  "homepage": "http://marimirabella.github.io/"
+}
