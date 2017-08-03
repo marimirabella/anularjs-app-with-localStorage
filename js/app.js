@@ -10,7 +10,7 @@ angular.module('app', [])
         localStorage.setItem('items', JSON.stringify($scope.items));
         
         // set count
-        $scope.count = ($scope.items.length != 0) ? $scope.items.length : 0
+        $scope.count = ($scope.items.length != 0) ? $scope.items.length : 0.
 
         // To parse str to int
         $scope.parseInt = parseInt;
@@ -19,6 +19,12 @@ angular.module('app', [])
         $scope.newItem = { id: $scope.count, name: '', comments: [] };
         
         $scope.submitItem = function() {
+
+            // updating id if the item is deleted
+            $scope.updateId();
+
+            // reset the id if the item is deleted
+            $scope.newItem.id = $scope.count;
             
             console.log('submit', $scope.newItem);
 
@@ -31,9 +37,6 @@ angular.module('app', [])
             // reset the form to pristine
             $scope.itemsForm.$setPristine(); 
             
-            // updating id
-            $scope.updateId();
-
             // reset JavaScript object that holds the item
             $scope.newItem = { id: $scope.count, name: '', comments: [] };
 
