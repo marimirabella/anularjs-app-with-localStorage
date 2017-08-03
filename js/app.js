@@ -4,12 +4,13 @@ angular.module('app', [])
 	// Posts Controller, dependency injection
     .controller('appController', ['$scope', function($scope) {
 
-        // get items
+        // set and get items in LocalStorage
         $scope.itemsSaved = localStorage.getItem('items');
         $scope.items = (localStorage.getItem('items') !== null) ? JSON.parse($scope.itemsSaved) : [];
         localStorage.setItem('items', JSON.stringify($scope.items));
-       
-        $scope.count = 0;
+        
+        // set count
+        $scope.count = ($scope.items.length != 0) ? $scope.items.length : 0
 
         // To parse str to int
         $scope.parseInt = parseInt;
@@ -21,8 +22,8 @@ angular.module('app', [])
             
             console.log('submit', $scope.newItem);
 
-            // push item into the items array
-            $scope.items.push($scope.newItem);
+            // push item into the items array and check for empty item
+            $scope.newItem.name.length != 0 ? $scope.items.push($scope.newItem) : alert("Please type the name");
 
             // store items
             localStorage.setItem('items', JSON.stringify($scope.items));
@@ -30,7 +31,8 @@ angular.module('app', [])
             // reset the form to pristine
             $scope.itemsForm.$setPristine(); 
             
-            $scope.count++;
+            // updating id
+            $scope.updateId();
 
             // reset JavaScript object that holds the item
             $scope.newItem = { id: $scope.count, name: '', comments: [] };
@@ -42,10 +44,10 @@ angular.module('app', [])
 
         };
 
-
+        // default active item
         $scope.activeItem = $scope.items[0];
-        // $scope.activeItem.comments = [];
 
+        // delete item
         $scope.deleteItem = function(item) {
             
             var index = $scope.items.indexOf(item);
@@ -60,24 +62,37 @@ angular.module('app', [])
             // push item into the items array
             $scope.items.splice(index,1);
 
+            // updating id
+            $scope.updateId();
+
             // store items
             localStorage.setItem('items', JSON.stringify($scope.items));
 
         };
 
+        // updating id
+        $scope.updateId = function(){
+            $scope.count = 0;
+
+            angular.forEach($scope.items, function(item){
+                item.id = $scope.count++;
+            });
+        };
+
         // set active class to an item
         $scope.setActive = function(item){
             $scope.activeItem = item;
-        }
+        };
 
-        // New comment
+        // new comment
         $scope.newComment = { comment: '' };
         
         $scope.submitComment = function() {
             
             console.log('submit comment', $scope.newComment);
 
-            $scope.activeItem !== undefined ? $scope.activeItem.comments.push($scope.newComment) : console.log('No item available');
+            // push comment into the comments array and check if no item and empty comment
+            $scope.activeItem !== undefined && $scope.newComment.comment.length > 0 ? $scope.activeItem.comments.push($scope.newComment) : alert('Please check if the item exist or you type the comment');
 
             // store items
             localStorage.setItem('items', JSON.stringify($scope.items));
